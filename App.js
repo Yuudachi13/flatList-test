@@ -9,18 +9,22 @@ export default function App() {
   const [data, setData] = useState([])
   const [selectedId, setSelectedId] = useState(null)
  
-  const add = useCallback((name) => {
+  const add = (name) => {
+    // Tarkista onko tyhjä tai välilyönti
+    if (name.trim() === '') {
+      return; // Lopeta jos on tyhjä
+    }
     const newItem = {
       id: uuid.v4(),
-      name: name
-    }
-    const tempData = [...data,newItem]
-    setData(tempData)
-  },[data])
+      name: name,
+    };
+    setData((prevData) => [...prevData, newItem]);
+  };
 
-  const select = useCallback((id) => {
+  // Function to handle selecting an item
+  const select = (id) => {
     setSelectedId(id);
-  }, []);
+  };
 
   return (
     
