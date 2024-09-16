@@ -3,11 +3,13 @@ import React, { useState } from "react";
 
 export default function Add({ add }) {
   const [name, setName] = useState("");
+  
 
   const save = () => {
     add(name);
     setName("");
   };
+  
 
   return (
     <View style={styles.container}>

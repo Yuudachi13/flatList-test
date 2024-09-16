@@ -1,8 +1,41 @@
-import { Text } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import React from "react";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default function Row({item}){
+export default function Row({item, selectedId, select,data,setData}) {
+    const backgroundColor = item.id === selectedId ? '#f0f0f0' : '#fff'
+
+    const remove = () => {
+        const arrayWithoutRemoved = data.filter((item)=> item.id !== selectedId)
+        setData(arrayWithoutRemoved)
+        select(null)
+    }
     return (
-    <Text>{item.name}</Text>    
+        <Pressable style={[styles.row,,{backgroundColor}]}
+         onPress={() => select(item.id)}>
+            <Text
+             style={styles.rowText}>{item.name}</Text>
+             {
+                item.id === selectedId && 
+                <Ionicons
+                name='trash'
+                size={24}
+                onPress={() => remove()}/>
+             }
+        </Pressable>
     )
 }
+
+const styles = StyleSheet.create({
+    row: {
+       flexDirection: 'row',
+       justifyContent: 'space-between',
+       alignItems: 'center'
+    },
+    rowText: {
+        fontSize: 16,
+        padding: 4,
+        margin: 4,
+    }
+})
+    

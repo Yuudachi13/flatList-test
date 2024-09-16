@@ -7,6 +7,7 @@ import uuid from 'react-native-uuid';
 
 export default function App() {
   const [data, setData] = useState([])
+  const [selectedId, setSelectedId] = useState(null)
  
   const add = useCallback((name) => {
     const newItem = {
@@ -17,15 +18,26 @@ export default function App() {
     setData(tempData)
   },[data])
 
+  const select = useCallback((id) => {
+    setSelectedId(id);
+  }, []);
+
   return (
     
     <SafeAreaView style={styles.container}>
      <Text style={styles.shopping}> Shopping List</Text>
-      <Add add={add} />
+      <Add add={add} setData={setData} />
       <FlatList
       data= {data}
+      keyExtractor={(item)=> item.id}
+      extraData={selectedId}
       renderItem={({item}) => (
-        <Row item={item} />
+        <Row item={item}
+             selectedId={selectedId}
+             select={select}
+             data={data}
+             setData={setData}
+         />
       )}
       />
     </SafeAreaView>
