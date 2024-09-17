@@ -2,8 +2,11 @@ import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Row from './components/Row';
 import Add from './components/Add';
 import Search from './components/Search';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import uuid from 'react-native-uuid';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const STORAGE_KEY = '@items_key'
 
 
 export default function App() {
@@ -13,6 +16,37 @@ export default function App() {
   criteria.length > 0 ? data.filter((item)=>item.name.startsWith(criteria)) : data,[data,criteria])
   const [selectedId, setSelectedId] = useState(null)
  
+  useEffect(()=> {
+   // AsyncStorage.clear()
+    getData()
+  }, [])
+  
+  useEffect(()=> {
+    storeData(data)
+  }, [data])
+
+  const getData = async() => {
+    try {
+      const value = await AsyncStorage.getItem(STORAGE_KEY)
+      const json = JSON.parse(value)
+      if (json === null){
+        json = []
+      }
+      setData(json)
+    } catch (ex) {
+      console.log(ex)
+    }
+  }
+
+  const storeData = async(value) => {
+    try {
+      const json = JSON.stringify(value)
+      await AsyncStorage.setItem(STORAGE_KEY,json)
+    } catch (ex){
+      console.log(ex)
+    }
+  }
+
   const add = (name) => {
     // Tarkista onko tyhjä tai välilyönti
     if (name.trim() === '') {
