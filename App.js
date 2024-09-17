@@ -1,12 +1,16 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import Row from './components/Row';
 import Add from './components/Add';
-import { useCallback, useState } from 'react';
+import Search from './components/Search';
+import { useCallback, useMemo, useState } from 'react';
 import uuid from 'react-native-uuid';
 
 
 export default function App() {
   const [data, setData] = useState([])
+  const [criteria, setCriteria] = useState('')
+  const items = useMemo(() =>
+  criteria.length > 0 ? data.filter((item)=>item.name.startsWith(criteria)) : data,[data,criteria])
   const [selectedId, setSelectedId] = useState(null)
  
   const add = (name) => {
@@ -30,9 +34,11 @@ export default function App() {
     
     <SafeAreaView style={styles.container}>
      <Text style={styles.shopping}> Shopping List</Text>
-      <Add add={add} setData={setData} />
+    <Add add={add} setData={setData} />
+    <Search criteria={criteria} setCriteria={setCriteria} />
+      
       <FlatList
-      data= {data}
+      data= {items}
       keyExtractor={(item)=> item.id}
       extraData={selectedId}
       renderItem={({item}) => (
