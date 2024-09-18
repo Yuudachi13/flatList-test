@@ -75,7 +75,7 @@ export default function App() {
   return (
     
     <SafeAreaView style={styles.container}>
-     <Text style={styles.shopping}> TO DO List</Text>
+     <Text style={styles.shopping}> Todo List</Text>
     <Add add={add} setData={setData} />
     <Search criteria={criteria} setCriteria={setCriteria} />
       
