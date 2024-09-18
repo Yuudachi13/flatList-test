@@ -17,7 +17,7 @@ export default function Add({ add }) {
         style={styles.form}
         value={name}
         onChangeText={(text) => setName(text)}
-        placeholder="Item name..."
+        placeholder=" Enter task"
       />
       <Button title="Save" onPress={() => save(name)} />
     </View>

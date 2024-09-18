@@ -55,11 +55,19 @@ export default function App() {
     const newItem = {
       id: uuid.v4(),
       name: name,
+      completed: false,
     };
     setData((prevData) => [...prevData, newItem]);
   };
 
-  // Function to handle selecting an item
+  const toggleComplete = (id) => {
+    setData((prevData) =>
+      prevData.map((item) =>
+        item.id === id ? { ...item, completed: !item.completed } : item
+      )
+    );
+  };
+
   const select = (id) => {
     setSelectedId(id);
   };
@@ -67,7 +75,7 @@ export default function App() {
   return (
     
     <SafeAreaView style={styles.container}>
-     <Text style={styles.shopping}> Shopping List</Text>
+     <Text style={styles.shopping}> TO DO List</Text>
     <Add add={add} setData={setData} />
     <Search criteria={criteria} setCriteria={setCriteria} />
       
@@ -81,6 +89,7 @@ export default function App() {
              select={select}
              data={data}
              setData={setData}
+             toggleComplete={toggleComplete}
          />
       )}
       />

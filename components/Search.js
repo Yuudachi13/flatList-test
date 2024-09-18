@@ -6,7 +6,7 @@ export default function Search ({criteria, setCriteria})  {
         <View style={styles.container}>
             <TextInput
             style={styles.input}
-            placeholder="Search..."
+            placeholder="Search task"
             value={criteria}
             onChangeText={(text) => setCriteria(text)}
             />
